@@ -1,0 +1,68 @@
+name: Propagate rulesets
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: Which repos to update
+        required: true
+        type: choice
+        default: all
+        options:
+          - all
+          - core
+          - plugins
+          - single-plugin
+      plugin_repo:
+        description: "Repo name for single-plugin target (e.g. slopsmith-plugin-tuner)"
+        required: false
+        type: string
+      enforce_checks:
+        description: "Promote status checks from evaluate → active (only set true once CI is running)"
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  propagate:
+    runs-on: ubuntu-latest
+    # Explicit minimal permissions for the GITHUB_TOKEN — this job doesn't
+    # use it directly, but defence in depth keeps the default token locked down.
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # gh CLI is pre-installed on ubuntu-latest runners.
+      # RULESET_PROPAGATION_TOKEN must be a fine-grained PAT with
+      # "Administration: Read and write" on all target repos, or a classic
+      # PAT with the `repo` scope. Store it as an org or repo secret named
+      # RULESET_PROPAGATION_TOKEN.
+      - name: Apply core + desktop rulesets
+        if: inputs.target == 'all' || inputs.target == 'core'
+        env:
+          GH_TOKEN: ${{ secrets.RULESET_PROPAGATION_TOKEN }}
+          ENFORCE_CHECKS: ${{ inputs.enforce_checks }}
+        run: |
+          bash scripts/apply-ruleset-core.sh
+          bash scripts/apply-ruleset-core-checks.sh
+
+      - name: Apply plugin rulesets (all)
+        if: inputs.target == 'all' || inputs.target == 'plugins'
+        env:
+          GH_TOKEN: ${{ secrets.RULESET_PROPAGATION_TOKEN }}
+          ENFORCE_CHECKS: ${{ inputs.enforce_checks }}
+        run: bash scripts/apply-ruleset-plugins.sh
+
+      - name: Apply plugin ruleset (single repo)
+        if: inputs.target == 'single-plugin'
+        env:
+          GH_TOKEN: ${{ secrets.RULESET_PROPAGATION_TOKEN }}
+          ENFORCE_CHECKS: ${{ inputs.enforce_checks }}
+        run: |
+          if [ -z "${{ inputs.plugin_repo }}" ]; then
+            echo "::error::plugin_repo input is required when target is single-plugin"
+            exit 1
+          fi
+          bash scripts/apply-ruleset-plugins.sh "${{ inputs.plugin_repo }}"
