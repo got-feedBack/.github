@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # apply-ruleset-plugins.sh
 #
-# Applies branch protection to org plugin repos (slopsmith/slopsmith-plugin-*).
+# Applies branch protection to org plugin repos (got-feedback/feedback-plugin-*).
 #
 # Two rulesets per repo:
 #   plugin-branch-protection  (always active)  — no force push/delete

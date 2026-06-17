@@ -29,6 +29,6 @@ Slopsmith uses a **release-centric branching model**. Each version gets its own 
 
 | Repo | Role |
 |---|---|
-| `slopsmith/slopsmith` | Core — FastAPI server, plugin loader, Docker image |
-| `slopsmith/slopsmith-desktop` | Desktop — Electron wrapper, native audio engine |
-| `slopsmith/slopsmith-plugin-*` | Org plugins — bundled in desktop, lighter governance |
+| `got-feedback/feedback` | Core — FastAPI server, plugin loader, Docker image |
+| `got-feedback/feedback-desktop` | Desktop — Electron wrapper, native audio engine |
+| `got-feedback/feedback-plugin-*` | Org plugins — bundled in desktop, lighter governance |

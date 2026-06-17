@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # apply-ruleset-core-checks.sh
 #
-# Applies the core-only CI checks to slopsmith/slopsmith:
+# Applies the core-only CI checks to got-feedback/feedback:
 #   ci / tailwind-fresh
 #   ci / manifest-validation
 #
