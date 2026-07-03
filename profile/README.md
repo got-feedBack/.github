@@ -1,6 +1,9 @@
 <div align="center">
 
-<img src="assets/logo-white.svg" alt="fee[dB]ack" width="360" />
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/logo-white.svg" />
+  <img src="assets/feedback-logo-dark.png" alt="fee[dB]ack" width="360" />
+</picture>
 
 ### Rhythm gaming for people who actually play. 🎸🎵🥁🎹🎤
 
