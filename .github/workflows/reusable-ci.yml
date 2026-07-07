@@ -60,9 +60,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install pytest fastapi httpx pyyaml
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          # NB: nullglob is on — a bare `ls "$d"/test_*.py` with no match
+          # expands to plain `ls` (which succeeds), so gate on the glob's
+          # array expansion instead.
           rc=0
           for d in tests test; do
-            if ls "$d"/test_*.py >/dev/null 2>&1; then
+            dfiles=("$d"/test_*.py)
+            if [ ${#dfiles[@]} -gt 0 ]; then
               pytest "$d" || rc=1
             fi
           done
