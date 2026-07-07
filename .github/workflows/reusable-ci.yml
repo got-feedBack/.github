@@ -1,0 +1,69 @@
+name: ci
+
+# Org-wide reusable CI (got-feedback/.github). Called by each repo's thin
+# `ci.yml` stub via `workflow_call`. Self-detecting: runs whatever test
+# stack the calling repo actually has, and no-ops green otherwise — so a
+# repo that gains tests later needs no CI change.
+#
+# Check names surface as "ci / js" and "ci / python"; keep them stable,
+# branch rulesets key on them.
+on: workflow_call
+
+permissions:
+  contents: read
+
+jobs:
+  js:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Run JS tests
+        shell: bash
+        run: |
+          if [ -f package.json ] && jq -e '.scripts.test' package.json >/dev/null; then
+            if [ -f package-lock.json ]; then npm ci; else npm install; fi
+            npm test
+          else
+            shopt -s nullglob
+            files=(tests/*.test.js test/*.test.js)
+            if [ ${#files[@]} -eq 0 ]; then
+              echo "no JS tests — skipping"
+              exit 0
+            fi
+            rc=0
+            for f in "${files[@]}"; do
+              echo "=== $f"
+              node "$f" || rc=1
+            done
+            exit $rc
+          fi
+
+  python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run pytest
+        shell: bash
+        run: |
+          shopt -s nullglob
+          files=(tests/test_*.py test/test_*.py)
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "no Python tests — skipping"
+            exit 0
+          fi
+          python -m pip install --upgrade pip
+          pip install pytest fastapi httpx pyyaml
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          rc=0
+          for d in tests test; do
+            if ls "$d"/test_*.py >/dev/null 2>&1; then
+              pytest "$d" || rc=1
+            fi
+          done
+          exit $rc
