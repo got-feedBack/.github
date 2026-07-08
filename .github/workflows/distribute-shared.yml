@@ -15,7 +15,8 @@ jobs:
     steps:
       - name: Checkout .github
         uses: actions/checkout@v7
-
+        with:
+          persist-credentials: false
       - name: Propagate shared/ to all org repos
         env:
           GH_TOKEN: ${{ secrets.PROPAGATION_TOKEN }}
