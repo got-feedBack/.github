@@ -1,0 +1,38 @@
+name: Distribute shared files
+
+on:
+  workflow_dispatch:
+    inputs:
+      repo_name:
+        description: "Single repo to target (empty = all)"
+        required: false
+
+jobs:
+  distribute:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout .github
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Propagate shared/ to all org repos
+        env:
+          GH_TOKEN: ${{ secrets.PROPAGATION_TOKEN }}
+          ORG: ${{ github.repository_owner }}
+          REPO_NAME: ${{ github.event.inputs.repo_name }}
+        run: |
+          if [ -n "$REPO_NAME" ]; then
+            bash scripts/propagate-files.sh \
+              --source shared/ \
+              --destination . \
+              --repo "$REPO_NAME" \
+              --message "Sync shared files from .github"
+          else
+            bash scripts/propagate-files.sh \
+              --source shared/ \
+              --destination . \
+              --all \
+              --message "Sync shared files from .github"
+          fi
