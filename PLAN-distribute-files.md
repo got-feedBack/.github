@@ -13,7 +13,7 @@ Since the first draft of this plan, two things landed in `.github`:
 
 ## Proposed `shared/` contents
 
-```
+```text
 shared/
 ├── .github/
 │   └── ISSUE_TEMPLATE/

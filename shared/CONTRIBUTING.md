@@ -26,7 +26,7 @@ git commit -s -m "your commit message"
 
 This appends a line like:
 
-```
+```text
 Signed-off-by: Jane Developer <jane@example.com>
 ```
 
