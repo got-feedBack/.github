@@ -93,7 +93,13 @@ for repo in "${REPOS[@]}"; do
   mkdir -p "$(dirname "$TARGET/$DEST")"
 
   # Copy — support both file and directory sources
-  if [ -d "$ROOT/$SOURCE" ]; then
+  if [ "$DEST" = "." ]; then
+    # Destination is the repo root — copy items individually to avoid rm -rf .
+    for item in "$ROOT/$SOURCE"/* "$ROOT/$SOURCE"/.[!.]*; do
+      [ -e "$item" ] || continue
+      cp -r "$item" "$TARGET/"
+    done
+  elif [ -d "$ROOT/$SOURCE" ]; then
     rm -rf "${TARGET:?}/$DEST"
     cp -r "$ROOT/$SOURCE" "$TARGET/$DEST"
   else
