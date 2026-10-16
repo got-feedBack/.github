@@ -91,8 +91,8 @@ Here's a taste of what's already in the ecosystem:
 | Plugin | What it does |
 |---|---|
 | [Note Detection](https://github.com/got-feedback/feedBack-plugin-notedetect) | The ears — real-time pitch detection and scoring against the highway |
-| [Arrangement Editor](https://github.com/got-feedback/feedBack-plugin-editor) | A DAW-like visual editor for building and tweaking note charts |
-| [Import Tab](https://github.com/got-feedback/feedBack-plugin-tabimport) · [MusicXML Import](https://github.com/got-feedback/feedBack-plugin-musicxml-import) | Drag in Guitar Pro / MusicXML files and start playing |
+| [Arrangement Editor](https://github.com/got-feedback/feedBack-plugin-editor) | A DAW-like visual editor for building and tweaking note charts, with Guitar Pro and MIDI import |
+| [MusicXML Import](https://github.com/got-feedback/feedBack-plugin-musicxml-import) | Drag in MusicXML scores and start playing |
 | [Stems & Stem Mixer](https://github.com/got-feedback/feedBack-plugin-stems) | Solo, mute, and remix individual parts of a track |
 | [Virtuoso](https://github.com/got-feedback/feedBack-plugin-virtuoso) | A full practice studio for guitar & bass — scales, technique, and rhythm drills |
 | [Guitar Theory Lab](https://github.com/got-feedback/feedBack-plugin-guitar-theory) | Scales, chords, intervals, tunings, and voicings on an interactive fretboard |
@@ -113,14 +113,14 @@ Here's a taste of what's already in the ecosystem:
 
 ## ⬇️ Get fee\[dB\]ack
 
-We're tuning up for the first public release. Downloads will land on
-**[got-feedback.org](https://got-feedback.org/#download)** and right here on GitHub.
+The first alpha is out. Grab it from **[got-feedback.org](https://got-feedback.org/#download)**
+or the [feedBack-desktop releases](https://github.com/got-feedback/feedBack-desktop/releases).
 
 | | Platform | |
 |---|---|---|
-| 🪟 | **Windows** | Installer with auto-updates |
-| 🍎 | **macOS** | Universal app — Apple silicon & Intel |
-| 🐧 | **Linux** | AppImage — download and run |
+| 🪟 | **Windows** | x64 installer with auto-updates, or a portable zip |
+| 🍎 | **macOS** | Apple silicon (arm64) |
+| 🐧 | **Linux** | x64 AppImage or `.deb` |
 | 🐳 | **Docker** | Self-host the web app with one `docker compose up` |
 
 The desktop app bundles everything, including a native low-latency audio engine
@@ -133,7 +133,7 @@ Free to play, free to read, free to build on.
 - **[feedBack](https://github.com/got-feedback/feedBack)** — the core app and plugin API.
 - **[feedBack-desktop](https://github.com/got-feedback/feedBack-desktop)** — native desktop builds (low-latency audio engine, VST hosting, neural amp modeling).
 - **[feedpak-spec](https://github.com/got-feedback/feedpak-spec)** — the open format for interactive charts. Fully documented, zero lock-in.
-- **[feedback-user-guide](https://github.com/got-feedback/feedback-user-guide)** — the player's handbook and wiki.
+- **[feedback-user-guide](https://github.com/got-feedback/feedback-user-guide)** — the player's handbook and wiki. [Read it online](https://got-feedback.github.io/feedBack-user-guide/).
 
 Core app licensed under **[AGPL-3.0](https://www.gnu.org/licenses/agpl-3.0.en.html)**.
 
